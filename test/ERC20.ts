@@ -1,16 +1,16 @@
 import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 import { expect } from "chai";
-import { ethers } from "hardhat"; 
-import { DLToken } from "../typechain-types/DLToken";
+import { ethers } from "hardhat";
+import { DLToken } from "../typechain-types/DLToken"; 
 
-describe("Test", function () {
+describe("DLToken Contract", function () {
     
     async function deployDLTokenFixture() {
-        const DLToken = await ethers.getContractFactory("DLToken");
+        const DLTokenFactory = await ethers.getContractFactory("DLToken");
         const [owner, addr1, addr2] = await ethers.getSigners();
-        const dlToken = await DLToken.deploy("DLToken", "DLT");
+        const dlToken = await DLTokenFactory.deploy("DLToken", "DLT");
 
-        await dlToken.waitForDeployment(); 
+        await dlToken.waitForDeployment();
 
         return { dlToken, owner, addr1, addr2 };
     }
@@ -71,8 +71,7 @@ describe("Test", function () {
             const addr1Balance = await this.dlToken.balanceOf(this.addr1.address);
             expect(addr1Balance).to.equal(ethers.parseUnits("95", 18)); 
 
-                  const totalSupply = await this.dlToken.getTotalSupply(); 
-
+            const totalSupply = await this.dlToken.getTotalSupply(); 
             expect(totalSupply).to.equal(ethers.parseUnits("999995", 18)); 
         });
     });
